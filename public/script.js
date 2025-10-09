@@ -162,3 +162,39 @@ async function fetchStats() {
     resultDiv.innerHTML = '<div class="error">❌ Ошибка сервера</div>';
   }
 }
+
+function generateCalendar() {
+  const monthInput = document.getElementById('calendarMonth').value;
+  const daysSelect = Array.from(document.getElementById('daysOfWeek').selectedOptions).map(o => parseInt(o.value));
+  const topics = document.getElementById('topicsList').value.split(',').map(t => t.trim()).filter(Boolean);
+  const resultDiv = document.getElementById('calendarResult');
+
+  if (!monthInput || daysSelect.length === 0 || topics.length === 0) {
+    resultDiv.innerHTML = '<div class="error">❌ Заполните все поля</div>';
+    return;
+  }
+
+  resultDiv.innerHTML = '<div class="loading">⏳ Формируем календарь...</div>';
+
+  setTimeout(() => {
+    const [year, month] = monthInput.split('-').map(Number);
+    const date = new Date(year, month - 1, 1);
+    const calendar = [];
+
+    while (date.getMonth() === month - 1) {
+      if (daysSelect.includes(date.getDay())) {
+        const topic = topics[calendar.length % topics.length];
+        calendar.push({ day: date.getDate(), topic });
+      }
+      date.setDate(date.getDate() + 1);
+    }
+
+    let html = '<table class="calendar-table"><tr><th>Дата</th><th>Тема</th></tr>';
+    calendar.forEach(item => {
+      html += `<tr><td>${year}-${String(month).padStart(2, '0')}-${String(item.day).padStart(2, '0')}</td><td>${item.topic}</td></tr>`;
+    });
+    html += '</table>';
+
+    resultDiv.innerHTML = `<div class="success">${html}</div>`;
+  }, 500);
+}

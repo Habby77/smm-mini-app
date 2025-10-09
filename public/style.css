@@ -1,60 +1,29 @@
-/* Добавьте эти стили в существующий файл */
+async function generatePlan() {
+    const businessType = document.getElementById('businessType').value.trim();
+    const targetAudience = document.getElementById('targetAudience').value.trim();
+    const resultDiv = document.getElementById('planResult');
 
-.error {
-    background: #ffe6e6;
-    border: 1px solid #ff4444;
-    color: #cc0000;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 10px 0;
-    font-weight: 500;
-    text-align: center;
-}
+    if (!businessType || !targetAudience) {
+        resultDiv.innerHTML = '<div class="error">❌ Заполните все поля</div>';
+        return;
+    }
 
-.success {
-    background: #e6ffe6;
-    border: 1px solid #44aa44;
-    color: #006600;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 10px 0;
-}
+    resultDiv.innerHTML = '<div class="loading">⏳ Генерируем контент-план...</div>';
 
-.loading {
-    background: #fff3cd;
-    border: 1px solid #ffc107;
-    color: #856404;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 10px 0;
-    text-align: center;
-    font-weight: 500;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-.success pre {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 6px;
-    margin-top: 10px;
-    white-space: pre-wrap;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #333;
-    border: 1px solid #e9ecef;
-    text-align: left;
-}
-
-/* Улучшение отзывчивости */
-@media (max-width: 480px) {
-    .success pre {
-        font-size: 12px;
-        padding: 10px;
+    try {
+        const res = await fetch(`${API_BASE}/generate-plan`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ businessType, targetAudience, userId: Telegram.WebApp.initDataUnsafe.user.id })
+        });
+        if (!res.ok) throw new Error(res.statusText);
+        const data = await res.json();
+        if (data.success) {
+            resultDiv.innerHTML = `<div class="success"><pre>${data.plan}</pre></div>`;
+        } else {
+            resultDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+        }
+    } catch (e) {
+        resultDiv.innerHTML = '<div class="error">❌ Сервис недоступен</div>';
     }
 }

@@ -22,20 +22,14 @@
                 <div class="feature-header">
                     <span class="feature-icon">📝</span>
                     <h3>Генератор контент-плана</h3>
-                </div>
-                <div class="feature-content">
-                    <div class="input-group">
-                        <label for="business-type">Тип бизнеса:</label>
-                        <input type="text" 
-                               id="business-type" 
-                               placeholder="Например: кафе, магазин одежды, автосервис">
-                    </div>
-                    <div class="input-group">
-                        <label for="target-audience">Целевая аудитория:</label>
-                        <input type="text" 
-                               id="target-audience" 
-                               placeholder="Например: женщины 25-35 лет, студенты">
-                    </div>
+              <!-- Контент-план -->
+<div class="section">
+  <h2>Генератор контент-плана</h2>
+  <input id="businessType" placeholder="Тип бизнеса">
+  <input id="targetAudience" placeholder="Целевая аудитория">
+  <button onclick="generatePlan()">Создать план на месяц</button>
+  <div id="planResult"></div>
+</div>
                     <button class="btn-primary" onclick="generateContentPlan()">
                         Создать план на месяц
                     </button>
@@ -138,4 +132,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

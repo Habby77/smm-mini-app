@@ -386,4 +386,47 @@ textarea {
         margin: 10% auto;
         padding: 16px;
     }
+
+}
+/* Добавим в public/style.css стили для уведомлений */
+
+.error {
+    background: #ffe6e6;
+    border: 1px solid #ff4444;
+    color: #cc0000;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.success {
+    background: #e6ffe6;
+    border: 1px solid #44aa44;
+    color: #006600;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.loading {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    font-weight: 500;
+}
+
+.success pre {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    color: #333;
+    border: 1px solid #e9ecef;
 }

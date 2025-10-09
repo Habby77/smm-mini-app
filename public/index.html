@@ -41,14 +41,13 @@
                 <div class="feature-header">
                     <span class="feature-icon">#️⃣</span>
                     <h3>Подбор хештегов</h3>
-                </div>
-                <div class="feature-content">
-                    <div class="input-group">
-                        <label for="post-text">Текст поста:</label>
-                        <textarea id="post-text" 
-                                  rows="3" 
-                                  placeholder="Вставьте текст вашего поста..."></textarea>
-                    </div>
+               <!-- Хештеги -->
+<div class="section">
+  <h2>Подбор хештегов</h2>
+  <textarea id="postText" placeholder="Текст поста"></textarea>
+  <button onclick="generateHashtags()">Найти хештеги</button>
+  <div id="hashtagsResult"></div>
+</div>
                     <button class="btn-primary" onclick="generateHashtags()">
                         Найти хештеги
                     </button>
@@ -60,14 +59,13 @@
                 <div class="feature-header">
                     <span class="feature-icon">📊</span>
                     <h3>Анализ конкурентов</h3>
-                </div>
-                <div class="feature-content">
-                    <div class="input-group">
-                        <label for="competitor-url">Ссылка на профиль конкурента:</label>
-                        <input type="url" 
-                               id="competitor-url" 
-                               placeholder="https://instagram.com/username">
-                    </div>
+              <!-- Анализ конкурентов -->
+<div class="section">
+  <h2>Анализ конкурентов</h2>
+  <input id="profileUrl" placeholder="Ссылка на профиль конкурента">
+  <button onclick="analyzeCompetitor()">Анализировать</button>
+  <div id="analysisResult"></div>
+</div>
                     <button class="btn-primary" onclick="analyzeCompetitor()">
                         Анализировать
                     </button>
@@ -134,3 +132,4 @@
 </body>
 
 </html>
+

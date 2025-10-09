@@ -132,3 +132,33 @@ document.addEventListener('DOMContentLoaded', function() {
         window.Telegram.WebApp.expand();
     }
 });
+
+async function fetchStats() {
+  const url = document.getElementById('statsUrl').value.trim();
+  const resultDiv = document.getElementById('statsResult');
+  if (!url) {
+    resultDiv.innerHTML = '<div class="error">❌ Введите ссылку на профиль</div>';
+    return;
+  }
+  resultDiv.innerHTML = '<div class="loading">⏳ Загрузка статистики...</div>';
+  try {
+    const res = await fetch(`${API_BASE}/fetch-stats`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ profileUrl: url })
+    });
+    const data = await res.json();
+    if (data.success) {
+      resultDiv.innerHTML = `
+        <div class="success">
+          Подписчики: ${data.stats.followers}<br>
+          Подписки: ${data.stats.following}<br>
+          Посты: ${data.stats.posts}
+        </div>`;
+    } else {
+      resultDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+    }
+  } catch {
+    resultDiv.innerHTML = '<div class="error">❌ Ошибка сервера</div>';
+  }
+}

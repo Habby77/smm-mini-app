@@ -1,3 +1,17 @@
+// Добавим в начало server.js
+const logger = require('./logger');
+
+// В обработчиках добавим логирование
+app.post('/api/generate-plan', async (req, res) => {
+    try {
+        const { businessType, targetAudience, userId } = req.body;
+        
+        logger.info('Запрос на генерацию плана', { 
+            businessType, 
+            targetAudience, 
+            userId,
+            ip: req.ip 
+        });
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -328,5 +342,16 @@ if (require.main === module) {
         console.log(`📱 Для Telegram Mini App используйте: ${process.env.WEBAPP_URL || `http://localhost:${PORT}`}`);
     });
 }
+} catch (error) {
+        logger.error('Ошибка генерации плана', { 
+            error: error.message, 
+            stack: error.stack 
+        });
+        res.status(500).json({ 
+            success: false, 
+            error: 'Внутренняя ошибка сервера' 
+        });
+    }
+});
 
 module.exports = app;

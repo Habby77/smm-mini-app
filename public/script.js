@@ -456,4 +456,56 @@ tg.BackButton.onClick(() => {
         // Иначе закрываем приложение
         tg.close();
     }
+
 });
+// Добавим в public/script.js улучшенную обработку ошибок
+
+async function generatePlan() {
+    const businessType = document.getElementById('businessType').value.trim();
+    const targetAudience = document.getElementById('targetAudience').value.trim();
+    const resultDiv = document.getElementById('planResult');
+    
+    // Валидация
+    if (!businessType || !targetAudience) {
+        resultDiv.innerHTML = '<div class="error">❌ Заполните все поля</div>';
+        return;
+    }
+    
+    if (businessType.length > 100 || targetAudience.length > 100) {
+        resultDiv.innerHTML = '<div class="error">❌ Текст слишком длинный (максимум 100 символов)</div>';
+        return;
+    }
+    
+    // Показать загрузку
+    resultDiv.innerHTML = '<div class="loading">⏳ Генерируем контент-план...</div>';
+    
+    try {
+        const response = await fetch('/api/generate-plan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                businessType, 
+                targetAudience, 
+                userId: window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 'demo'
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            resultDiv.innerHTML = `<div class="success"><h3>📅 Контент-план на месяц:</h3><pre>${data.plan}</pre></div>`;
+        } else {
+            resultDiv.innerHTML = `<div class="error">❌ ${data.error || 'Ошибка генерации'}</div>`;
+        }
+        
+    } catch (error) {
+        console.error('Ошибка генерации плана:', error);
+        resultDiv.innerHTML = '<div class="error">❌ Сервис временно недоступен. Попробуйте позже.</div>';
+    }
+}

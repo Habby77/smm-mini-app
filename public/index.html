@@ -71,6 +71,29 @@
   <div id="statsResult"></div>
 </div>
 
+<div class="section">
+  <h2>Генерация календаря публикаций</h2>
+  <label>Месяц и год:</label>
+  <input type="month" id="calendarMonth">
+  
+  <label>Дни недели:</label>
+  <select id="daysOfWeek" multiple>
+    <option value="1">Понедельник</option>
+    <option value="2">Вторник</option>
+    <option value="3">Среда</option>
+    <option value="4">Четверг</option>
+    <option value="5">Пятница</option>
+    <option value="6">Суббота</option>
+    <option value="0">Воскресенье</option>
+  </select>
+
+  <label>Темы (через запятую):</label>
+  <input id="topicsList" placeholder="Тема1, Тема2, Тема3">
+
+  <button onclick="generateCalendar()">Сформировать календарь</button>
+  <div id="calendarResult"></div>
+</div>
+
                     
         <!-- Футер с информацией о подписке -->
         <footer class="app-footer">
@@ -126,6 +149,7 @@
 </body>
 
 </html>
+
 
 
 
